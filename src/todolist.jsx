@@ -1,6 +1,7 @@
 import React, { useState, useRef, Fragment } from "react";
 import { v4 as uuid } from "uuid";
 import { TodoItem } from "./TodoItem.jsx";
+import {TodoFooter} from "./TodoFooter.jsx";
 
 function ResumenTareas({ total, completadas }) {
     return (
@@ -13,7 +14,7 @@ function ResumenTareas({ total, completadas }) {
 function TareasCompletadas({ tareas, onDelete, onToggle }) {
     return (
         <>
-            <h5 className="mt-4 mb-3">✅ Tareas Completadas</h5>
+            <h5 className="mt-4 mb-3">Tareas Completadas</h5>
             <ul className="list-group">
                 {tareas.map((todo) => (
                     <TodoItem
@@ -77,6 +78,10 @@ export function TodoList() {
     const tareasActivas = todos.filter(todo => !todo.completed);
     const tareasCompletadas = todos.filter(todo => todo.completed);
 
+    const borrarCompletadas = () => {
+        setTodos((prevTodos) => prevTodos.filter((todo) => !todo.completed));
+    };
+
     return (
         <Fragment>
             <div className="mt-5">
@@ -133,6 +138,12 @@ export function TodoList() {
                     </div>
                 </div>
             </div>
+            <TodoFooter
+                total={todos.length}
+                completadas={tareasCompletadas.length}
+                onClearCompleted={borrarCompletadas}
+            />
         </Fragment>
+
     );
 }
